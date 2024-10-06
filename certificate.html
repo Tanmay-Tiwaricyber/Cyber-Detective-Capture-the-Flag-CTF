@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certificate of Completion</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+        .certificate {
+            border: 10px solid #333;
+            padding: 20px;
+            text-align: center;
+            background: white;
+            width: 600px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+        }
+        h1 {
+            font-size: 36px;
+            margin: 0;
+        }
+        p {
+            font-size: 24px;
+            margin: 10px 0;
+        }
+        .footer {
+            margin-top: 50px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="certificate">
+        <h1>Certificate of Completion</h1>
+        <p>This certifies that</p>
+        <h2 id="userNameDisplay"></h2>
+        <p>has successfully completed the Cyber Detective: Capture the Flag challenge.</p>
+        <p>Given this day: <span id="dateDisplay"></span></p>
+        <div class="footer">Cyber Detective Team</div>
+    </div>
+
+    <script>
+        // Get the URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const name = urlParams.get('name');
+
+        // Display the name on the certificate
+        document.getElementById('userNameDisplay').innerText = name;
+
+        // Display the current date
+        const date = new Date();
+        document.getElementById('dateDisplay').innerText = date.toLocaleDateString();
+    </script>
+</body>
+</html>

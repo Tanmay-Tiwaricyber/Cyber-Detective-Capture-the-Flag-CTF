@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task 2: Python Room</title>
+    <link rel="stylesheet" href="../assets/css/styles.css">
+</head>
+<body>
+    <header>
+        <h1>Task 2: Python Room</h1>
+        <p>Your next challenge: Ghost has hidden a message in this Python code snippet. Decrypt it to find the flag!</p>
+    </header>
+
+    <div class="code-container">
+        <pre class="python-code">
+# Ghost's encrypted message
+message = "UDVG{pybg-arfggrk}"
+key = 13
+
+def decrypt(message, key):
+    decrypted = ""
+    for char in message:
+        if char.isalpha():
+            shift = 65 if char.isupper() else 97
+            decrypted += chr((ord(char) - shift + key) % 26 + shift)
+        else:
+            decrypted += char
+    return decrypted
+
+flag = decrypt(message, key)
+print("Flag: " + flag)  # <--- Solve this!
+        </pre>
+    </div>
+
+    <div class="hint">
+        <p><strong>Clue:</strong> The message is encrypted with a Caesar cipher. Can you decrypt it?</p>
+    </div>
+
+    <footer>
+        <a href="../index.html"><button>Back to Challenges</button></a>
+    </footer>
+</body>
+</html>

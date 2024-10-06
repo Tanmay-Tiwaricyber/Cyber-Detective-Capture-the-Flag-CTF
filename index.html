@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyber Detective CTF</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <style>
+        /* Styles for the modal */
+        .modal {
+            display: none; 
+            position: fixed; 
+            z-index: 1; 
+            left: 0;
+            top: 0;
+            width: 100%; 
+            height: 100%; 
+            overflow: auto; 
+            background-color: rgb(0,0,0);
+            background-color: rgba(0,0,0,0.4); 
+            padding-top: 60px; 
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto; 
+            padding: 20px;
+            border: 1px solid #3a3939;
+            width: 80%; 
+            text-align: center;
+        }
+
+        /* Styles for the certificate */
+        .certificate {
+            display: none;
+            margin: 20px auto;
+            padding: 20px;
+            border: 2px solid #4CAF50;
+            text-align: center;
+            width: 80%;
+            background-color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Cyber Detective: Capture the Flag</h1>
+        <p>Your mission: Solve mysteries, follow the clues, and capture the flags to stop the cyber criminal 'Ghost'!</p>
+        <button onclick="showStoryModal()">Begin Your Mission</button>
+    </header>
+
+    <!-- Story Modal -->
+    <div id="storyModal" class="modal">
+        <div class="modal-content">
+            <h2>Welcome, Detective!</h2>
+            <img src="assets/img/ghost.png" alt="Ghost" class="character-pic" height="150px">
+            <p><strong>Character:</strong> 'Ghost', the notorious hacker, has caused chaos in the digital world.</p>
+            <p>His ultimate goal is to break into highly secured systems. Your mission is to stop him by solving a series of challenges he's left behind.</p>
+            <button onclick="startChallenge()">Accept Mission</button>
+        </div>
+    </div>
+
+    <!-- Task Sections -->
+    <div class="task" id="task-1">
+        <h2>Task 1: Ghost's First Clue</h2>
+        <img src="assets/img/detective.png" alt="Detective" class="character-pic" height="150px">
+        <p>Clue: The hacker left a message hidden in the HTML of this page. Can you uncover it?</p>
+        <input type="text" id="flag-input-1" placeholder="Submit Flag">
+        <button onclick="submitFlag(1, 'CTF{html-hidden-flag}')">Submit</button>
+        <a href="room/task1.html"><button>Investigate</button></a>
+    </div>
+
+    <div class="task" id="task-2">
+        <h2>Task 2: Cracking the Python Code</h2>
+        <img src="assets/img/coder.png" alt="Coder" class="character-pic" height="150px">
+        <p>Clue: Ghost has encrypted the next message in Python. Can you break his encryption?</p>
+        <input type="text" id="flag-input-2" placeholder="Submit Flag">
+        <button onclick="submitFlag(2, 'CTF{python-cracked}')">Submit</button>
+        <a href="room/task2.html"><button>Investigate</button></a>
+    </div>
+
+    <div class="task" id="task-3">
+        <h2>Task 3: Vulnerable Website</h2>
+        <img src="assets/img/hacker.png" alt="Hacker" class="character-pic" height="150px">
+        <p>Clue: Ghost left a vulnerable login form. Can you exploit it and find the hidden flag?</p>
+        <input type="text" id="flag-input-3" placeholder="Submit Flag">
+        <button onclick="submitFlag(3, 'CTF{vuln-login}')">Submit</button>
+        <a href="room/task3.html"><button>Investigate</button></a>
+    </div>
+
+    <div class="task" id="task-4">
+        <h2>Task 4: Exploit XSS Vulnerability</h2>
+        <img src="assets/img/web expert.png" alt="Web Expert" class="character-pic" height="150px">
+        <p>Clue: The hacker has injected a Cross-Site Scripting (XSS) vulnerability in a form. Exploit it to capture the next flag!</p>
+        <input type="text" id="flag-input-4" placeholder="Submit Flag">
+        <button onclick="submitFlag(4, 'CTF{xss-pwned}')">Submit</button>
+        <a href="room/task4.html"><button>Investigate</button></a>
+    </div>
+
+    <div class="task" id="task-5">
+        <h2>Task 5: Password Cracking Challenge</h2>
+        <img src="assets/img/bitcoin-sv.png" alt="Cryptography Expert" class="character-pic" height="150px">
+        <p>Clue: Ghost has left a hashed password in the system. Your task is to crack the hash and recover the original password.</p>
+        <p>Here is the hash: <code>5f4dcc3b5aa765d61d8327deb882cf99</code></p>
+        <p>Hint: This is a commonly used password hash. You may need to use online hash-cracking tools.</p>
+        <input type="text" id="flag-input-5" placeholder="Submit Cracked Password">
+        <button onclick="submitCrackedPassword()">Submit Password</button>
+    </div>
+
+    <!-- Button to trigger certificate modal -->
+    <button id="certificateBtn" style="display: none;" onclick="showCertificateModal()">Generate Certificate</button>
+
+    <!-- Certificate Modal -->
+    <div id="certificateModal" class="modal">
+        <div class="modal-content">
+            <h2>Certificate of Completion</h2>
+            <p>Congratulations! You have completed all the tasks.</p>
+            <label for="userName">Enter your name:</label>
+            <input type="text" id="userName" placeholder="Your Name">
+            <button onclick="generateCertificate()">Generate Certificate</button>
+        </div>
+    </div>
+
+    <div id="certificate" class="certificate">
+        <h1>Certificate of Completion</h1>
+        <p>This is to certify that</p>
+        <h2 id="certName"></h2>
+        <p>has successfully completed the Cyber Detective Capture the Flag event.</p>
+        <p>Date: <span id="certDate"></span></p>
+    </div>
+
+    <script src="assets/js/script.js"></script>
+    <script>
+        let tasksCompleted = 0;
+
+        function submitFlag(taskNumber, correctFlag) {
+            const input = document.getElementById(`flag-input-${taskNumber}`);
+            if (input.value === correctFlag) {
+                alert("Correct flag submitted!");
+                tasksCompleted++;
+                input.value = '';
+                checkCompletion();
+            } else {
+                alert("Incorrect flag. Try again.");
+            }
+        }
+
+        function submitCrackedPassword() {
+            const input = document.getElementById('flag-input-5');
+            if (input.value === 'password') { // Assuming 'password' is the original password
+                alert("Correct password submitted!");
+                tasksCompleted++;
+                input.value = '';
+                checkCompletion();
+            } else {
+                alert("Incorrect password. Try again.");
+            }
+        }
+
+        function checkCompletion() {
+            if (tasksCompleted === 5) {
+                document.getElementById('certificateBtn').style.display = 'block';
+                showCertificateModal();
+            }
+        }
+
+        function showCertificateModal() {
+            document.getElementById('certificateModal').style.display = 'block';
+        }
+
+        function generateCertificate() {
+            const name = document.getElementById('userName').value;
+            if (name.trim() === '') {
+                alert("Please enter your name.");
+                return;
+            }
+            document.getElementById('certName').innerText = name;
+            document.getElementById('certDate').innerText = new Date().toLocaleDateString();
+            document.getElementById('certificate').style.display = 'block';
+            document.getElementById('certificateModal').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
